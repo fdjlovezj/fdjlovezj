@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -53,7 +54,7 @@
             background: rgba(255, 255, 255, 0.9);
             padding: 2rem;
             border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             line-height: 1.8;
         }
 
@@ -86,9 +87,32 @@
             font-style: italic;
             color: #666;
         }
+
+        /* 新增花瓣飘落效果 */
+        .petal {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: url('https://www.freeiconspng.com/uploads/flower-png-33.png');
+            background-size: contain;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
     </style>
 </head>
+
 <body>
+    <div id="petals-container"></div>
     <div class="timer">
         <h2>❤️ 爱赵瑾 ❤️</h2>
         <p>我们已经相爱：<span id="loveDays">0</span> 天</p>
@@ -103,7 +127,7 @@
             <p>我们没有久居异地，但我的思念和爱意不会随着时间淡去，在共同度过的时间里，生活充满了无法言喻的可能性。如加缪笔下的故事一般，每一次的攀登都是追逐着一种超越日常的存在。</p>
         </div>
 
-       <div class="photo-wall">
+        <div class="photo-wall">
             <img src="https://raw.githubusercontent.com/fandunjin/zhaojin/main/3d14c32f22120df08506991b2091e01.jpg" alt="在福鼎探店">
             <img src="https://raw.githubusercontent.com/fandunjin/zhaojin/main/50c88a5df01456fddc91ba09d59da5d.jpg" alt="在平潭拉丁车">
             <img src="https://raw.githubusercontent.com/fandunjin/zhaojin/main/4931770cb13db72b05dcf5a064d0fd0.jpg" alt="在贵安动物园">
@@ -132,6 +156,29 @@
                 img.classList.toggle('enlarged');
             });
         });
+
+        // 花瓣生成器
+        function createPetals() {
+            const container = document.getElementById('petals-container');
+            for (let i = 0; i < 20; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.animationDuration = Math.random() * 3 + 5 + 's';
+                petal.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(petal);
+            }
+        }
+        createPetals();
+
+        // 音乐播放优化
+        document.addEventListener('click', function () {
+            const audio = document.querySelector('audio');
+            if (audio) {
+                audio.play();
+            }
+        });
     </script>
 </body>
+
 </html>
