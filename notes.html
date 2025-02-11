@@ -32,17 +32,19 @@
             padding: 20px;
         }
 
+        /* Navigation Bar */
         .nav {
             display: flex;
             justify-content: space-around;
-            background: #ffd700;
+            background: var(--secondary-color);
             padding: 1rem;
             position: sticky;
             top: 0;
+            z-index: 1000;
         }
 
         .nav a {
-            color: #333;
+            color: var(--text-color);
             text-decoration: none;
             padding: 0.5rem 1rem;
             border-radius: 5px;
@@ -50,7 +52,7 @@
         }
 
         .nav a:hover {
-            background: #fff3b0;
+            background: var(--primary-color);
             color: white;
         }
 
