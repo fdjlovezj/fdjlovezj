@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板</title>
+    <style>
+        /* Shared styles (same as index.html) */
+        :root {
+            --primary-color: #ffd700;
+            --secondary-color: #fff3b0;
+        }
+
+        body {
+            background: linear-gradient(45deg, var(--secondary-color), #ffffff);
+            font-family: 'Maobi', cursive;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        @font-face {
+            font-family: 'Maobi';
+            src: url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap');
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            background: var(--secondary-color);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+        }
+
+        .nav a {
+            color: #333;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .nav a:hover {
+            background: var(--primary-color);
+        }
+
+        /* Message board styles */
+        .message-board {
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+
+        .message-form {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .message-form input, .message-form button {
+            padding: 0.5rem;
+            border-radius: 5px;
+        }
+
+        .message {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="nav">
+        <a href="index.html">首页</a>
+        <a href="gallery.html">照片墙</a>
+        <a href="video.html">视频</a>
+        <a href="notes.html">留言板</a>
+    </nav>
+
+    <div class="message-board">
+        <h2>留言板</h2>
+        <div class="message-form">
+            <input type="text" id="name" placeholder="昵称（可留空）" style="flex-grow: 1;">
+            <textarea id="content" placeholder="留言内容（必填）" style="flex-grow: 2; height: 60px;"></textarea>
+            <button onclick="addMessage()" style="background: var(--primary-color); color: white;">留言</button>
+        </div>
+        <div id="messages"></div>
+    </div>
+
+    <script>
+        // Message board functionality
+        function addMessage() {
+            const name = document.getElementById('name').value;
+            const content = document.getElementById('content').value;
+            if (content.trim() === '') return;
+
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.innerHTML = `
+                <p><strong>${name || '匿名'}</strong> 在 ${new Date().toLocaleString()} 说：</p>
+                <p>${content}</p>
+            `;
+            document.getElementById('messages').appendChild(messageElement);
+            document.getElementById('content').value = '';
+
+            // Save to local storage
+            const messages = JSON.parse(localStorage.getItem('messages')) || [];
+            messages.push({
+                name: name,
+                content: content,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('messages', JSON.stringify(messages));
+        }
+
+        // Load saved messages
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedMessages = JSON.parse(localStorage.getItem('messages')) || [];
+            savedMessages.forEach(msg => {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.innerHTML = `
+                    <p><strong>${msg.name || '匿名'}</strong> 在 ${new Date(msg.timestamp).toLocaleString()} 说：</p>
+                    <p>${msg.content}</p>
+                `;
+                document.getElementById('messages').appendChild(messageElement);
+            });
+        });
+    </script>
+</body>
+</html>

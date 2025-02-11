@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>爱赵瑾</title>
+    <style>
+        :root {
+            --primary-color: #ffd700;
+            --secondary-color: #fff3b0;
+            --text-color: #333;
+            --background-color: #f0f8ff;
+        }
+
+        body {
+            background: var(--background-color);
+            font-family: 'Maobi', cursive;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        @font-face {
+            font-family: 'Maobi';
+            src: url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap');
+        }
+
+        /* Navigation Bar */
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            background: var(--secondary-color);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .nav a:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Clouds */
+        .cloud {
+            position: absolute;
+            width: 200px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            z-index: -1;
+        }
+
+        .cloud::before {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+            left: -50px;
+            top: -25px;
+        }
+
+        .cloud::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+            right: -50px;
+            top: -25px;
+        }
+
+        #cloud1 {
+            top: 50px;
+            left: 100px;
+            animation: float 10s ease-in-out infinite;
+        }
+
+        #cloud2 {
+            top: 150px;
+            right: 100px;
+            animation: float 12s ease-in-out infinite;
+        }
+
+        /* Flowers */
+        .flower {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: url('https://www.freeiconspng.com/uploads/flower-png-33.png');
+            background-size: contain;
+            animation: float 8s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        #flower1 {
+            bottom: 50px;
+            left: 50px;
+            animation-delay: 2s;
+        }
+
+        #flower2 {
+            bottom: 100px;
+            right: 50px;
+            animation-delay: 4s;
+        }
+
+        /* Hearts */
+        .heart {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: red;
+            transform: rotate(45deg);
+            animation: pulse 2s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .heart::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: red;
+            border-radius: 50%;
+        }
+
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: red;
+            border-radius: 50%;
+            top: -50%;
+        }
+
+        #heart1 {
+            top: 200px;
+            left: 200px;
+        }
+
+        #heart2 {
+            top: 300px;
+            right: 200px;
+        }
+
+        /* Love Timer */
+        .timer-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 5rem;
+            background: linear-gradient(135deg, #c9eeff 0%, #fff8e0 100%);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-top: 5rem;
+            z-index: 1;
+        }
+
+        .timer-content {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .timer-content h2 {
+            margin: 0;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .timer-content p {
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-size: 1.1rem;
+        }
+
+        .love-days {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Love Letter */
+        .love-letter {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-top: 5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .love-letter h2 {
+            margin: 0;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .love-letter p {
+            line-height: 1.8;
+            text-align: justify;
+            color: var(--text-color);
+            font-size: 1.1rem;
+        }
+
+        /* Scrollable Content Container */
+        .scroll-container {
+            position: relative;
+            overflow-y: auto;
+            min-height: 100%;
+            padding-bottom: 100px;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .cloud {
+                width: 150px;
+                height: 75px;
+            }
+
+            .flower {
+                width: 40px;
+                height: 40px;
+            }
+
+            .heart {
+                width: 25px;
+                height: 25px;
+            }
+
+            .timer-container {
+                padding: 3rem;
+                margin-top: 3rem;
+            }
+
+            .love-letter {
+                padding: 2rem;
+                margin-top: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Clouds -->
+    <div class="cloud" id="cloud1"></div>
+    <div class="cloud" id="cloud2"></div>
+
+    <!-- Flowers -->
+    <div class="flower" id="flower1"></div>
+    <div class="flower" id="flower2"></div>
+
+    <!-- Hearts -->
+    <div class="heart" id="heart1"></div>
+    <div class="heart" id="heart2"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="nav">
+        <a href="index.html">首页</a>
+        <a href="gallery.html">照片墙</a>
+        <a href="video.html">视频</a>
+        <a href="notes.html">留言板</a>
+    </nav>
+
+    <!-- Scrollable Content -->
+    <div class="scroll-container">
+        <!-- Love Timer -->
+        <div class="timer-container">
+            <div class="timer-content">
+                <h2>❤️ LOVE YOU ❤️</h2>
+                <p>我爱你</p>
+                <p>我们已经相爱：<span class="love-days" id="loveDays">0</span> 天</p>
+            </div>
+        </div>
+
+        <!-- Love Letter -->
+        <div class="love-letter">
+            <h2>致我最爱的瑾：</h2>
+            <p>赵瑾，我想给你一个从未有过信仰的人的忠诚，想给你我那不被时间、欢乐和逆境触动的核心，也想给你我的寂寞、黑暗和我内心的饥渴。</p>
+            <p>我看了许多情书，但那些真正感人的，真正能令人深感其中的，往往是那些通讯并不发达，久居异地的情侣们，多数也是在表达对对方的思念，和心里的爱意。</p>
+            <p>我们没有久居异地，但我的思念和爱意不会随着时间淡去，在共同度过的时间里，生活充满了无法言喻的可能性，如加缪笔下的故事一般，每一次的攀登都是追逐着一种超越日常的存在。</p>
+        </div>
+    </div>
+
+    <script>
+        // Love days counter
+        const startDate = new Date('2023-09-21');
+        const today = new Date();
+        const timeDiff = today - startDate;
+        const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+        document.getElementById('loveDays').textContent = daysDiff;
+    </script>
+</body>
+</html>

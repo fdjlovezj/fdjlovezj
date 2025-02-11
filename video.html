@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频</title>
+    <style>
+        /* Shared styles (same as index.html) */
+        :root {
+            --primary-color: #ffd700;
+            --secondary-color: #fff3b0;
+        }
+
+        body {
+            background: linear-gradient(45deg, var(--secondary-color), #ffffff);
+            font-family: 'Maobi', cursive;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        @font-face {
+            font-family: 'Maobi';
+            src: url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap');
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            background: var(--secondary-color);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+        }
+
+        .nav a {
+            color: #333;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .nav a:hover {
+            background: var(--primary-color);
+        }
+
+        /* Video container */
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="nav">
+        <a href="index.html">首页</a>
+        <a href="gallery.html">照片墙</a>
+        <a href="video.html">视频</a>
+        <a href="notes.html">留言板</a>
+    </nav>
+
+    <div class="video-container">
+        <video controls preload="metadata" width="640" height="360">
+            <source src="https://github.com/fandunjin/zhaojin/raw/main/06d7a3887fdc2e0d25c5aec047ece9fa.mp4" type="video/mp4">
+            您的浏览器不支持 video 标签。
+        </video>
+    </div>
+</body>
+</html>

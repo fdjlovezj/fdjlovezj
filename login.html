@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <style>
+        :root {
+            --primary-color: #ffd700;
+            --secondary-color: #fff3b0;
+        }
+
+        body {
+            background: url('https://via.placeholder.com/150') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Maobi', cursive;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @font-face {
+            font-family: 'Maobi';
+            src: url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap');
+        }
+
+        .login-form {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-form p {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--primary-color);
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-form">
+        <p>我们的生日：</p>
+        <input id="birthday" type="text" placeholder="0228">
+        <button onclick="handleLogin()">登录</button>
+    </div>
+
+    <script>
+        function handleLogin() {
+            const birthday = document.getElementById('birthday').value;
+            if (birthday === '0228') {
+                localStorage.setItem('loggedIn', 'true');
+                window.location.href = 'index.html';
+            } else {
+                alert('我们的生日');
+            }
+        }
+
+        // Auto redirect if already logged in
+        if (localStorage.getItem('loggedIn') === 'true') {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
