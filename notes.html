@@ -5,29 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>留言板</title>
     <style>
-        /* Shared styles (same as index.html) */
-        :root {
-            --primary-color: #ffd700;
-            --secondary-color: #fff3b0;
-        }
-
+        /* 页面样式 */
         body {
-            background: linear-gradient(45deg, var(--secondary-color), #ffffff);
-            font-family: 'Maobi', cursive;
+            background: linear-gradient(45deg, #fff3b0, #ffffff);
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            min-height: 100vh;
-        }
-
-        @font-face {
-            font-family: 'Maobi';
-            src: url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap');
         }
 
         .nav {
             display: flex;
             justify-content: space-around;
-            background: var(--secondary-color);
+            background: #ffd700;
             padding: 1rem;
             position: sticky;
             top: 0;
@@ -38,35 +27,58 @@
             text-decoration: none;
             padding: 0.5rem 1rem;
             border-radius: 5px;
+            transition: 0.3s;
         }
 
         .nav a:hover {
-            background: var(--primary-color);
+            background: #fff3b0;
+            color: white;
         }
 
-        /* Message board styles */
         .message-board {
-            margin: 2rem auto;
             max-width: 800px;
+            margin: 0 auto;
+            margin-top: 2rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
 
         .message-form {
             display: flex;
             gap: 1rem;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
         }
 
-        .message-form input, .message-form button {
+        .message-form input,
+        .message-form textarea,
+        .message-form button {
             padding: 0.5rem;
             border-radius: 5px;
         }
 
+        .message-form input,
+        .message-form textarea {
+            flex-grow: 1;
+        }
+
         .message {
-            background: white;
+            background: #f0f8ff;
             padding: 1rem;
             border-radius: 10px;
             margin-bottom: 1rem;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .delete-button {
+            margin-top: 0.5rem;
+            padding: 0.3rem 0.6rem;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -82,30 +94,36 @@
     <div class="message-board">
         <h2>留言板</h2>
         <div class="message-form">
-            <input type="text" id="name" placeholder="昵称（可留空）" style="flex-grow: 1;">
-            <textarea id="content" placeholder="留言内容（必填）" style="flex-grow: 2; height: 60px;"></textarea>
-            <button onclick="addMessage()" style="background: var(--primary-color); color: white;">留言</button>
+            <input type="text" id="name" placeholder="昵称（可留空）">
+            <textarea id="content" placeholder="留言内容（必填）"></textarea>
+            <button onclick="addMessage()">留言</button>
         </div>
         <div id="messages"></div>
     </div>
 
     <script>
-        // Message board functionality
+        // 从 localStorage 中加载留言
+        function loadMessages() {
+            const messages = JSON.parse(localStorage.getItem('messages')) || [];
+            const messagesContainer = document.getElementById('messages');
+            messages.forEach((msg, index) => {
+                const messageElement = document.createElement('div');
+                messageElement.className = 'message';
+                messageElement.innerHTML = `
+                    <p><strong>${msg.name || '匿名'}</strong> 在 ${new Date(msg.timestamp).toLocaleString()} 说：</p>
+                    <p>${msg.content}</p>
+                    <button class="delete-button" onclick="deleteMessage(${index})">删除</button>
+                `;
+                messagesContainer.appendChild(messageElement);
+            });
+        }
+
+        // 添加留言
         function addMessage() {
             const name = document.getElementById('name').value;
             const content = document.getElementById('content').value;
             if (content.trim() === '') return;
 
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('message');
-            messageElement.innerHTML = `
-                <p><strong>${name || '匿名'}</strong> 在 ${new Date().toLocaleString()} 说：</p>
-                <p>${content}</p>
-            `;
-            document.getElementById('messages').appendChild(messageElement);
-            document.getElementById('content').value = '';
-
-            // Save to local storage
             const messages = JSON.parse(localStorage.getItem('messages')) || [];
             messages.push({
                 name: name,
@@ -113,21 +131,29 @@
                 timestamp: new Date().toISOString()
             });
             localStorage.setItem('messages', JSON.stringify(messages));
+
+            // 清空输入框
+            document.getElementById('name').value = '';
+            document.getElementById('content').value = '';
+
+            // 重新加载留言
+            const messagesContainer = document.getElementById('messages');
+            messagesContainer.innerHTML = '';
+            loadMessages();
         }
 
-        // Load saved messages
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedMessages = JSON.parse(localStorage.getItem('messages')) || [];
-            savedMessages.forEach(msg => {
-                const messageElement = document.createElement('div');
-                messageElement.classList.add('message');
-                messageElement.innerHTML = `
-                    <p><strong>${msg.name || '匿名'}</strong> 在 ${new Date(msg.timestamp).toLocaleString()} 说：</p>
-                    <p>${msg.content}</p>
-                `;
-                document.getElementById('messages').appendChild(messageElement);
-            });
-        });
+        // 删除留言
+        function deleteMessage(index) {
+            const messages = JSON.parse(localStorage.getItem('messages')) || [];
+            if (index >= 0 && index < messages.length) {
+                messages.splice(index, 1);
+                localStorage.setItem('messages', JSON.stringify(messages));
+                loadMessages();
+            }
+        }
+
+        // 页面加载时加载留言
+        document.addEventListener('DOMContentLoaded', loadMessages);
     </script>
 </body>
 </html>
